@@ -77,15 +77,16 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  # Vite dev server
-    "https://password-vault-frontend.vercel.app",  # future
+    "https://password-manager-one-eta.vercel.app",  # future
 ]
 
 CORS_ALLOW_CREDENTIALS = True
 
 CSRF_TRUSTED_ORIGINS = [
+    "https://password-manager-one-eta.vercel.app",
     "https://*.onrender.com",
     "http://localhost:5173",
-    "https://password-vault-frontend.vercel.app",
+    # "https://password-vault-frontend.vercel.app",
 ]
 
 
