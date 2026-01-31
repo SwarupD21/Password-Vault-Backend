@@ -5,6 +5,9 @@ from rest_framework.views import APIView
 from .encryption import *
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
 
 # Create your views here.
 class CreateView(APIView):
@@ -26,12 +29,16 @@ class CreateView(APIView):
         )
 
 class ListView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     def get(self,request):
         entries = VaultEntry.objects.filter(owner = request.user)
         serializer=VaultReadSerializer(entries,many=True)
         return Response(serializer.data)
 
 class UpdateView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     def patch(self, request, id):
         entry = get_object_or_404(
             VaultEntry,
@@ -58,6 +65,8 @@ class UpdateView(APIView):
 
 
 class DeleteView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     def delete(self, request, id):
         entry = get_object_or_404(
             VaultEntry,
@@ -71,6 +80,8 @@ class DeleteView(APIView):
         )
 
 class DetailView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     def get(self,request,id):
         entry = get_object_or_404(VaultEntry, id=id ,owner=request.user)
         decrypted_password = decrypt_pass(entry.encrypted_password)
